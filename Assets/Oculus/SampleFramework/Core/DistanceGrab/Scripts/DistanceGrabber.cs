@@ -209,6 +209,7 @@ namespace OculusSampleFramework
                 if(travel * travel * 1.1f > dir.sqrMagnitude)
                 {
                     m_movingObjectToHand = false;
+                    Destroy(m_grabbedObj.gameObject);
                 }
                 else
                 {
