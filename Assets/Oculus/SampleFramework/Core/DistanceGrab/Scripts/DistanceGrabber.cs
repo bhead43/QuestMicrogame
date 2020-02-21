@@ -25,7 +25,7 @@ namespace OculusSampleFramework
     [RequireComponent(typeof(Rigidbody))]
     public class DistanceGrabber : OVRGrabber
     {
-
+        public int evidenceRemaining = 4;
         // Radius of sphere used in spherecast from hand along forward ray to find target object.
         [SerializeField]
         public Color m_focusColor;
@@ -135,6 +135,11 @@ namespace OculusSampleFramework
                     m_target.Targeted = true;
                 }
             }
+
+            if (evidenceRemaining <= 0)
+            {
+                evidenceRemaining = 0; //placeholder
+            }
         }
 
         protected override void GrabBegin()
@@ -209,7 +214,11 @@ namespace OculusSampleFramework
                 if(travel * travel * 1.1f > dir.sqrMagnitude)
                 {
                     m_movingObjectToHand = false;
-                    Destroy(m_grabbedObj.gameObject);
+                    if (m_grabbedObj.tag == "Evidence")
+                    {
+                        evidenceRemaining--;
+                        Destroy(m_grabbedObj.gameObject);
+                    }
                 }
                 else
                 {
