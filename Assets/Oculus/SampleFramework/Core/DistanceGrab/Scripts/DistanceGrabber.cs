@@ -11,6 +11,7 @@ language governing permissions and limitations under the license.
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEngine.SceneManagement;
 #endif
@@ -38,6 +39,9 @@ namespace OculusSampleFramework
         // where they are in relation to the hand.
         [SerializeField]
         float m_noSnapThreshhold = 0.05f;
+
+        public GameObject EvidenceText;
+        public GameObject obtainChime;
 
         [SerializeField]
         bool m_useSpherecast;
@@ -82,6 +86,9 @@ namespace OculusSampleFramework
         {
             base.Start();
 
+            EvidenceText = GameObject.FindWithTag("EvidenceText");
+            obtainChime = GameObject.FindWithTag("EvidObtained");
+
             // Set up our max grab distance to be based on the player's max grab distance.
             // Adding a liberal margin of error here, because users can move away some from the 
             // OVRPlayerController, and also players have arms.
@@ -111,6 +118,8 @@ namespace OculusSampleFramework
 		public override void Update()
         {
             base.Update();
+
+            EvidenceText.GetComponent<Text>().text = "Evidence Remaining: " + evidenceRemaining;
 
             Debug.DrawRay(transform.position, transform.forward, Color.red, 0.1f);
             
@@ -216,8 +225,11 @@ namespace OculusSampleFramework
                     m_movingObjectToHand = false;
                     if (m_grabbedObj.tag == "Evidence")
                     {
+                        
                         evidenceRemaining--;
                         Destroy(m_grabbedObj.gameObject);
+                        obtainChime.GetComponent<AudioSource>().Play();
+
                     }
                 }
                 else
