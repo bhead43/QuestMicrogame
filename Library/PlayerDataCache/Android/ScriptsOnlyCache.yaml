@@ -684,7 +684,7 @@ ScriptsOnlyBuild:
     className: TeleportTransitionWarp
   - hash:
       serializedVersion: 2
-      Hash: 9454b49fc0345d98cda775d5a1437380
+      Hash: 967a691a767307fbb920aa3d82d32875
     assemblyName: Assembly-CSharp.dll
     namespaceName: OculusSampleFramework
     className: DistanceGrabber

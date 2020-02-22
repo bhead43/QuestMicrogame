@@ -43,6 +43,11 @@ namespace OculusSampleFramework
         public GameObject EvidenceText;
         public GameObject obtainChime;
 
+        public Transform PlayerTransform;
+
+        public Transform TeleportGoalRig;
+        public Transform TeleportGoalCabin;
+
         [SerializeField]
         bool m_useSpherecast;
         public bool UseSpherecast
@@ -88,6 +93,10 @@ namespace OculusSampleFramework
 
             EvidenceText = GameObject.FindWithTag("EvidenceText");
             obtainChime = GameObject.FindWithTag("EvidObtained");
+
+            PlayerTransform = GameObject.FindWithTag("Player").transform;
+            TeleportGoalRig = GameObject.Find("TeleToCabin").transform;
+            TeleportGoalCabin = GameObject.Find("TeleToRig").transform;
 
             // Set up our max grab distance to be based on the player's max grab distance.
             // Adding a liberal margin of error here, because users can move away some from the 
@@ -218,6 +227,19 @@ namespace OculusSampleFramework
 
             if (m_movingObjectToHand)
             {
+
+                if (m_grabbedObj.tag == "TeleToRig")
+                {
+                    m_movingObjectToHand = false;
+                    PlayerTransform.position = TeleportGoalRig.position;
+                }
+                if (m_grabbedObj.tag == "TeleToCabin")
+                {
+                    m_movingObjectToHand = false;
+                    PlayerTransform.position = TeleportGoalCabin.position;
+                }
+
+
                 float travel = m_objectPullVelocity * Time.deltaTime;
                 Vector3 dir = grabbablePosition - m_grabbedObj.transform.position;
                 if(travel * travel * 1.1f > dir.sqrMagnitude)
@@ -242,8 +264,8 @@ namespace OculusSampleFramework
             grabbedRigidbody.MovePosition(grabbablePosition);
             grabbedRigidbody.MoveRotation(grabbableRotation);
         }
-
-        static private DistanceGrabbable HitInfoToGrabbable(RaycastHit hitInfo)
+        
+            static private DistanceGrabbable HitInfoToGrabbable(RaycastHit hitInfo)
         {
             if (hitInfo.collider != null)
             {

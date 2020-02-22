@@ -7,6 +7,9 @@ TagManager:
   - EvidenceText
   - Evidence
   - EvidObtained
+  - TeleToRig
+  - TeleToCabin
+  - SpawnForRig
   layers:
   - Default
   - TransparentFX
