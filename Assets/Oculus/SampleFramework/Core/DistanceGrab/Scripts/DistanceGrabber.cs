@@ -156,7 +156,7 @@ namespace OculusSampleFramework
 
             if (evidenceRemaining <= 0)
             {
-                evidenceRemaining = 0; //placeholder
+                EvidenceText.GetComponent<Text>().text = "ALL EVIDENCE FOUND!";
             }
         }
 
